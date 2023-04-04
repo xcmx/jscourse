@@ -14,7 +14,7 @@ console.log(initials); // [ "Г.П.А.", "П.О.І.", "Р.А.О."]
 const currentMaxValue = 4589;
 let reverseMaxValue;
 
-// тут ваш код...
+reverseMaxValue = parseFloat(currentMaxValue.toString().split('').reverse('').join(''));
 
 console.log(reverseMaxValue); // 9854
 console.log(typeof reverseMaxValue); // 'number'
