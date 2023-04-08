@@ -4,7 +4,7 @@
 const userNames = ["Петрик Ольга Іванівна", "Гнатюк Петро Антонович", "Рудко Андрій Опанасович"];
 let initials;
 
-// тут ваш код ...
+initials = userNames.map(element => element.split(" ").map(element => element[0]).join('.')).sort();
 
 console.log(initials); // [ "Г.П.А.", "П.О.І.", "Р.А.О."]
 
@@ -14,7 +14,7 @@ console.log(initials); // [ "Г.П.А.", "П.О.І.", "Р.А.О."]
 const currentMaxValue = 4589;
 let reverseMaxValue;
 
-reverseMaxValue = parseFloat(currentMaxValue.toString().split('').reverse('').join(''));
+reverseMaxValue = parseInt(currentMaxValue.toString().split('').reverse().join(''));
 
 console.log(reverseMaxValue); // 9854
 console.log(typeof reverseMaxValue); // 'number'
@@ -24,11 +24,13 @@ console.log(typeof reverseMaxValue); // 'number'
 Задача на знаходження добутку масиву чисел з невідомою глибиною вкладеності
 */
 const resultsArray = [1, 2, [3, [4]]];
-let productOfArray = 1;
-let flattenArray = resultsArray.flat(2);
+let productOfArray;
 
-flattenArray.forEach((element) => { 
-    productOfArray *= element;
-})
+productOfArray = 1; // For the proper multiplication
+
+productOfArray = resultsArray.flat(Infinity).reduce(
+  (accumulator, currentValue) => accumulator * currentValue,
+  productOfArray
+);
 
 console.log(productOfArray); // 24
