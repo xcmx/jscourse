@@ -1,4 +1,3 @@
-
 /*
 1. Обчислення дати
 Напишіть функцію яка буде буде приймати 3 параметри- початкову дату (string)
@@ -9,6 +8,41 @@
 Функція має коректно працювати навіть якщо початкова дата пізніше ніж кінцева дата.durationBetweenDates('02 Aug 1985', '03 Aug 1985', 'seconds')  // поверне '86400 seconds'
 durationBetweenDates('31 Jan 2022', '03 Feb 2021', 'days')  // поверне '362 days'
 */
+
+function getDurationBetweenDates(startDate = null, endDate = null, period = 'seconds') {
+
+    if (startDate && endDate) {
+        startDate = new Date(startDate).getTime();
+        endDate = new Date(endDate).getTime();
+
+        if (isNaN(startDate) || isNaN(endDate)) {
+            return 'Wrong format of start date or end date'
+        }
+        else {
+            let result = endDate - startDate;
+            if (period === 'days') {
+                return `${(Math.abs(Math.floor(result / 1000 / 60 / 60 / 24)))} days`;
+            }
+            else if (period === 'hours') {
+                return `${Math.abs(Math.floor(result / 1000 / 60 / 60))} hours`;
+            }
+            else if (period === 'minutes') {
+                return `${Math.abs(Math.floor(result / 1000 / 60))} minutes`;
+            }
+            else if (period === 'seconds') {
+                return `${Math.abs(Math.floor(result / 1000))} seconds`;
+            }
+            else {
+                return 'Wrong period format'
+            }
+        }
+    }
+    else {
+        return `Start date or end date aren't specified`
+    }
+
+
+}
 
 /*
 2. Перетворення об'єкту
