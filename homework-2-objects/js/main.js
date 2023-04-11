@@ -10,7 +10,6 @@ durationBetweenDates('31 Jan 2022', '03 Feb 2021', 'days')  // поверне '3
 */
 
 function getDurationBetweenDates(startDate = null, endDate = null, period = 'seconds') {
-
     if (startDate && endDate) {
         startDate = new Date(startDate).getTime();
         endDate = new Date(endDate).getTime();
@@ -37,42 +36,60 @@ function getDurationBetweenDates(startDate = null, endDate = null, period = 'sec
             }
         }
     }
-    else {
-        return `Start date or end date aren't specified`
-    }
-
-
+    return `Start date or end date aren't specified`
 }
 
 /*
 2. Перетворення об'єкту
 Допустимо у вас є об'єкт, у якому кожен ключ - це назва товару (одинм словом), а значення - його ціна.
 Напишіть функцію яка буде всі ключі переводити у нижній регістр, а всі ціни буде заокруглювати до двох знаків після коми.
-// приклад об'єкту
-const priceData = {     Apples: '23.4',
-    BANANAS: '48',
-    oRAngGEs: '48.7584',
+
+*/
+const priceData = {
+    Apples: '23.4',
+    BANANAS: '48',
+    oRAngGEs: '48.7584',
 };
+    
 function optimizer(data) {
+    Object.keys(data).forEach(item => console.log(item.toLowerCase()));
     // тут ваш код
 };
 let updatedPriceData = optimizer(priceData);
 console.log(updatedPriceData) // {apples: '23.40', bananas: '48.00', oranges: '48.76'}
-*/
-
 
 /*
 3. Рекусія і ітерація
-функцію яка рекурсивно буде знаходити суму всіх непарних додатніх чисел до якогось числа.
+1. Функцію яка рекурсивно буде знаходити суму всіх непарних додатніх чисел до якогось числа. */
 function recursiveOddSumTo(number) {
-   // тут ваш код
+    if (typeof number === 'number') {
+        if (number === 0) {
+            return 0;
+        } else if (number % 2 === 0) {
+            return recursiveOddSumTo(number - 1);
+        }
+        return number + recursiveOddSumTo(number - 1);
+    }
+    return 'Not a number'
 };
 console.log(recursiveOddSumTo(1)) // 1
 console.log(recursiveOddSumTo(10)) // 25
-     2. функцію яка ітеративно (в циклі) буде знаходити суму всіх непарних додатніх чисел до якогось числа.
+
+
+/* 2. функцію яка ітеративно (в циклі) буде знаходити суму всіх непарних додатніх чисел до якогось числа. */
+
 function iterativeOddSumTo(number) {
-// тут ваш код
+    if (typeof number === 'number') {
+        let sum = 0;
+        for (let i = 0; i <= number; i++) {
+            if (i % 2 != 0) {
+                sum += i;
+            }
+        }
+        return sum;
+    }
+    return 'Not a number'
 };
+
 console.log(iterativeOddSumTo(1)) // 1
 console.log(iterativeOddSumTo(10)) // 25
-*/
