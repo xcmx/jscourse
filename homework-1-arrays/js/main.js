@@ -1,27 +1,24 @@
 /* Task 1 
-Задача на повернення ініціалів для кожного імені з масиву, посортованих в алфавітному порядку
+Bring back full name initals for each array item and sort them alphabetically
 */
-const userNames = ["Петрик Ольга Іванівна", "Гнатюк Петро Антонович", "Рудко Андрій Опанасович"];
+const userNames = ["Petrik Olha Ivanivna", "Hnatiuk Petro Antonovich", "Rudko Andrii Opanasovich"];
 const initials = userNames.map(element => element.split(" ").map(element => element[0]).join('.')).sort();
-console.log(initials); // [ "Г.П.А.", "П.О.І.", "Р.А.О."]
 
 /* Task 2 
-Задача на розворот числа
+Reverse the number
+
+TODO: 
+1. Fix case when currentMaxValue = -0 
+2. Fix case when currentMaxValue = 2400 and reverseMaxValue brings back just 42
 */
-const currentMaxValue = 2245;
+const currentMaxValue = 2400;
 const reverseMaxValue = Math.sign(currentMaxValue)*parseFloat(currentMaxValue.toString().split('').reverse().join(''));
 
-console.log(reverseMaxValue); // 9854
-console.log(typeof reverseMaxValue); // 'number'
-
-
 /* Task 3
-Задача на знаходження добутку масиву чисел з невідомою глибиною вкладеності
+Find the product of array with unknown depth level
 */
 const resultsArray = [1, 2, [3, [4]]];
 
 const productOfArray = resultsArray.flat(Infinity).reduce(
   (accumulator, currentValue) => accumulator * currentValue, 1
 );
-
-console.log(productOfArray); // 24
