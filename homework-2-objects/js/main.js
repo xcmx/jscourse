@@ -14,27 +14,27 @@ function getDurationBetweenDates(startDate = null, endDate = null, period = 'sec
         startDate = new Date(startDate).getTime();
         endDate = new Date(endDate).getTime();
 
-        if (isNaN(startDate) || isNaN(endDate)) {
-            return 'Wrong format of start date or end date'
+        if (!isNaN(startDate) && !isNaN(endDate)) {
+            let result = Math.abs(endDate - startDate);
+            switch (period.toLowerCase()) {
+                case 'days': {
+                    return `${(Math.floor(result / 1000 / 60 / 60 / 24))} days`;
+                };
+                case 'hours': {
+                    return `${Math.floor(result / 1000 / 60 / 60)} hours`;
+                };
+                case 'minutes': {
+                    return `${Math.floor(result / 1000 / 60)} minutes`;
+                };
+                case 'seconds': {
+                    return `${Math.floor(result / 1000)} seconds`;
+                };
+                default: {
+                    return 'Wrong period format';
+                };
+            }
         }
-        else {
-            let result = endDate - startDate;
-            if (period === 'days') {
-                return `${(Math.abs(Math.floor(result / 1000 / 60 / 60 / 24)))} days`;
-            }
-            else if (period === 'hours') {
-                return `${Math.abs(Math.floor(result / 1000 / 60 / 60))} hours`;
-            }
-            else if (period === 'minutes') {
-                return `${Math.abs(Math.floor(result / 1000 / 60))} minutes`;
-            }
-            else if (period === 'seconds') {
-                return `${Math.abs(Math.floor(result / 1000))} seconds`;
-            }
-            else {
-                return 'Wrong period format'
-            }
-        }
+        return 'Wrong format of start date or end date';
     }
     return `Start date or end date aren't specified`
 }
@@ -52,8 +52,9 @@ const priceData = {
 };
     
 function optimizer(data) {
-    Object.keys(data).forEach(item => console.log(item.toLowerCase()));
-    // тут ваш код
+    return Object.fromEntries(
+        Object.entries(data).map(([key, value]) => [key.toLowerCase(), parseFloat(value).toFixed(2)])
+    );
 };
 let updatedPriceData = optimizer(priceData);
 console.log(updatedPriceData) // {apples: '23.40', bananas: '48.00', oranges: '48.76'}
@@ -70,7 +71,7 @@ function recursiveOddSumTo(number) {
         }
         return number + recursiveOddSumTo(number - 1);
     }
-    return 'Not a number'
+    return 'Not a valid number'
 };
 console.log(recursiveOddSumTo(1)) // 1
 console.log(recursiveOddSumTo(10)) // 25
@@ -79,7 +80,7 @@ console.log(recursiveOddSumTo(10)) // 25
 /* 2. функцію яка ітеративно (в циклі) буде знаходити суму всіх непарних додатніх чисел до якогось числа. */
 
 function iterativeOddSumTo(number) {
-    if (typeof number === 'number') {
+    if (typeof number === 'number' && number > 0) {
         let sum = 0;
         for (let i = 0; i <= number; i++) {
             if (i % 2 != 0) {
@@ -88,7 +89,7 @@ function iterativeOddSumTo(number) {
         }
         return sum;
     }
-    return 'Not a number'
+    return 'Not a valid number'
 };
 
 console.log(iterativeOddSumTo(1)) // 1
