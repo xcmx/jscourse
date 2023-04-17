@@ -1,49 +1,75 @@
 /*
-1. Обчислення дати
-Напишіть функцію яка буде буде приймати 3 параметри- початкову дату (string)
-- кінцеву дату (string)
-- розмірність ('days',  'hours', 'minutes', seconds)
-Функція повертатиме часовий період між цими датами згідно розмірності.
-Також вкажіть значення по замовчуванню для всіх цих параметрів (на ваш вибір).
-Функція має коректно працювати навіть якщо початкова дата пізніше ніж кінцева дата.durationBetweenDates('02 Aug 1985', '03 Aug 1985', 'seconds')  // поверне '86400 seconds'
-durationBetweenDates('31 Jan 2022', '03 Feb 2021', 'days')  // поверне '362 days'
+1. Get duration between dates
+
+Create a function with 3 parameters: 
+- startDate (string), endDate(string);
+- period(string: 'days',  'hours', 'minutes', 'seconds')
+- default values for each param
+- Function has to bring back the duration between dates according to picked period
+- Function has to work properly even if the startDate later than endDate (getDurationBetweenDates('02 Aug 1985', '03 Aug 1985', 'seconds') //  returns'86400 seconds'
+
+getDurationBetweenDates('31 Jan 2022', '03 Feb 2021', 'days')  // returns '362 days'
 */
 
+function validatePeriod(period) {
+    if (!period || typeof period !== 'string') {
+        return false;
+    };
+    const validPeriods = ['days', 'hours', 'minutes', 'seconds'];
+    const transformedPeriod = period.toLowerCase();
+
+    return validPeriods.includes(transformedPeriod);
+};
+
+function validateDate(date) {
+    const dateToValidate = Date.parse(date);
+    return !isNaN(dateToValidate);
+};
+
+
+function formatDate(date, period) {
+    return `${date} ${period}`;
+};
+
 function getDurationBetweenDates(startDate = null, endDate = null, period = 'seconds') {
-    if (startDate && endDate) {
-        startDate = new Date(startDate).getTime();
-        endDate = new Date(endDate).getTime();
+    const isPeriodValid = validatePeriod(period);
 
-        if (!isNaN(startDate) && !isNaN(endDate)) {
-            let result = Math.abs(endDate - startDate);
-            switch (period.toLowerCase()) {
-                case 'days': {
-                    return `${(Math.floor(result / 1000 / 60 / 60 / 24))} days`;
-                };
-                case 'hours': {
-                    return `${Math.floor(result / 1000 / 60 / 60)} hours`;
-                };
-                case 'minutes': {
-                    return `${Math.floor(result / 1000 / 60)} minutes`;
-                };
-                case 'seconds': {
-                    return `${Math.floor(result / 1000)} seconds`;
-                };
-                default: {
-                    return 'Wrong period format';
-                };
-            }
-        }
-        return 'Wrong format of start date or end date';
+    if (!isPeriodValid) {
+        return 'Invalid period format';
+    };
+    if (!validateDate(startDate) || !validateDate(endDate)) {
+        return 'Start date or end date aren\'t valid'
+    };
+
+    const result = Math.abs(Date.parse(endDate) - Date.parse(startDate));
+    const duration = period.toLowerCase();
+
+    switch (duration) {
+        case 'days': {
+            const date = Math.floor(result / 1000 / 60 / 60 / 24);
+            return formatDate(date, duration);
+        };
+        case 'hours': {
+            const date = Math.floor(result / 1000 / 60 / 60);
+            return formatDate(date, duration);
+        };
+        case 'minutes': {
+            const date = Math.floor(result / 1000 / 60);
+            return formatDate(date, duration);
+        };
+        case 'seconds': {
+            const date = Math.floor(result / 1000);
+            return formatDate(date, duration);
+        };
+        default: {
+            return 'Wrong period format';
+        };
     }
-    return `Start date or end date aren't specified`
 }
-
 /*
-2. Перетворення об'єкту
-Допустимо у вас є об'єкт, у якому кожен ключ - це назва товару (одинм словом), а значення - його ціна.
-Напишіть функцію яка буде всі ключі переводити у нижній регістр, а всі ціни буде заокруглювати до двох знаків після коми.
-
+2. Object transoformation
+There is an object with key: name of an item and value: price.
+Create a function that transforms all the keys to lowercase and round all the prices with 2 numbers after the comma
 */
 const priceData = {
     Apples: '23.4',
@@ -52,44 +78,58 @@ const priceData = {
 };
     
 function optimizer(data) {
+    if (!data || typeof data !== 'object') {
+        return 'Invalid data';
+    };
     return Object.fromEntries(
         Object.entries(data).map(([key, value]) => [key.toLowerCase(), parseFloat(value).toFixed(2)])
     );
 };
-let updatedPriceData = optimizer(priceData);
+const updatedPriceData = optimizer(priceData);
 console.log(updatedPriceData) // {apples: '23.40', bananas: '48.00', oranges: '48.76'}
 
 /*
-3. Рекусія і ітерація
-1. Функцію яка рекурсивно буде знаходити суму всіх непарних додатніх чисел до якогось числа. */
+3. A function that recursively finds a sum of all odd numbers for some provided number 
+*/
 function recursiveOddSumTo(number) {
-    if (typeof number === 'number') {
-        if (number === 0) {
-            return 0;
-        } else if (number % 2 === 0) {
-            return recursiveOddSumTo(number - 1);
-        }
-        return number + recursiveOddSumTo(number - 1);
-    }
-    return 'Not a valid number'
+    if (typeof number !== 'number' || isNaN(number)) {
+        return 'Not a valid number';
+    };
+
+    if (number <= 0) {
+        return 0;
+    };
+
+    if (number % 2 === 0) {
+        return recursiveOddSumTo(number - 1);
+    };
+
+    return number + recursiveOddSumTo(number - 2);
 };
 console.log(recursiveOddSumTo(1)) // 1
 console.log(recursiveOddSumTo(10)) // 25
 
 
-/* 2. функцію яка ітеративно (в циклі) буде знаходити суму всіх непарних додатніх чисел до якогось числа. */
+/* 
+4. A function that iterativeally (in a loop) finds a sum of all odd numbers for some provided number 
+*/
 
 function iterativeOddSumTo(number) {
-    if (typeof number === 'number' && number > 0) {
-        let sum = 0;
-        for (let i = 0; i <= number; i++) {
-            if (i % 2 != 0) {
-                sum += i;
-            }
+    if (typeof number !== 'number' || isNaN(number)) {
+        return 'Not a valid number';
+    };
+
+    if (number <= 0) {
+        return 0;
+    };
+
+    let sum = 0;
+    for (let i = 0; i <= number; i++) {
+        if (i % 2 !== 0) {
+            sum += i;
         }
-        return sum;
     }
-    return 'Not a valid number'
+    return sum;
 };
 
 console.log(iterativeOddSumTo(1)) // 1
