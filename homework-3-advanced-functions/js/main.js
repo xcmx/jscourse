@@ -2,12 +2,17 @@
 незалежно від їх кількості (але без використання вбутованого об'єкту Math). 
 Використайте оператор розширення: */
 
-console.log(addThemAll(2,4)); // 6
-console.log(addThemAll(1,2,3,4)); // 10
-console.log(addThemAll(5,5,10)); // 20
+console.log(addThemAll(null)); // 6
+// console.log(addThemAll(1,2,3,4)); // 10
+// console.log(addThemAll(5,5,10)); // 20
 
-function addThemAll() {
-// тут ваш код
+function addThemAll(...numbers) {
+    // TODO: Add more validation cases
+    if (numbers.length === 0) {
+        return 'Invalid data'
+    }
+    const sum = numbers.reduce((accumulator, currentValue) => accumulator + currentValue);
+    return sum;
 }
 
 /* 2. Задача на використання замикання. Напишіть функцію яка працює таким чином: multiply(a)(b)// a * b */
@@ -17,7 +22,12 @@ console.log(multiply(2)(-2)) // -4
 console.log(multiply(4)(3)) // 12
 
 function multiply(a) {
-// тут ваш код
+    console.log(a);
+    function calculate(b) {
+        return a * b;
+    };
+    return calculate;
+
 }
 
 /*
