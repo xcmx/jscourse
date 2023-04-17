@@ -78,7 +78,7 @@ const priceData = {
 };
     
 function optimizer(data) {
-    if (!data || typeof data !== 'object') {
+    if (!data || typeof data !== 'object' || Array.isArray(data)) {
         return 'Invalid data';
     };
     return Object.fromEntries(
