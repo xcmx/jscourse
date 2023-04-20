@@ -16,14 +16,11 @@ function validatePeriod(period) {
         return false;
     };
     const validPeriods = ['days', 'hours', 'minutes', 'seconds'];
-    const transformedPeriod = period.toLowerCase();
-
-    return validPeriods.includes(transformedPeriod);
+    return validPeriods.includes(period.toLowerCase());
 };
 
 function validateDate(date) {
-    const dateToValidate = Date.parse(date);
-    return !isNaN(dateToValidate);
+    return !isNaN(Date.parse(date));
 };
 
 
@@ -31,6 +28,7 @@ function formatDate(date, period) {
     return `${date} ${period}`;
 };
 
+/* Solution with switch */ 
 function getDurationBetweenDates(startDate = null, endDate = null, period = 'seconds') {
     const isPeriodValid = validatePeriod(period);
 
@@ -66,6 +64,32 @@ function getDurationBetweenDates(startDate = null, endDate = null, period = 'sec
         };
     }
 }
+
+/* TODO: FInalize. Solution with object literals */
+function getDurationBetweenDates2(startDate = null, endDate = null, period = 'seconds') {
+
+    const isPeriodValid = validatePeriod(period);
+
+    if (!isPeriodValid) {
+        return 'Invalid period format';
+    };
+    if (!validateDate(startDate) || !validateDate(endDate)) {
+        return 'Start date or end date aren\'t valid'
+    };
+
+    const result = Math.abs(Date.parse(endDate) - Date.parse(startDate));
+    const duration = period.toLowerCase();
+
+    const periodSets = {
+        days: 1000 * 60 * 60 * 24,
+        hours: 1000 * 60 * 60,
+        minutes: 1000 * 60,
+        seconds: 1000
+    }
+
+    return `${(Math.floor(result / parseInt(periodSets[period])))} ${period}`;
+}
+
 /*
 2. Object transoformation
 There is an object with key: name of an item and value: price.
