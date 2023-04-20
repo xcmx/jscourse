@@ -2,13 +2,16 @@
 незалежно від їх кількості (але без використання вбутованого об'єкту Math). 
 Використайте оператор розширення: */
 
-console.log(addThemAll(null)); // 6
-// console.log(addThemAll(1,2,3,4)); // 10
-// console.log(addThemAll(5,5,10)); // 20
+console.log(addThemAll(2, 4)); // 6
+console.log(addThemAll(1,2,3,4)); // 10
+console.log(addThemAll(5,5,10)); // 20
+
+function checkIfArrayHasOnlyNumbers(number) {
+    return typeof number === 'number';
+}
 
 function addThemAll(...numbers) {
-    // TODO: Add more validation cases
-    if (numbers.length === 0) {
+    if (numbers.length === 0 || !numbers.every(checkIfArrayHasOnlyNumbers)) {
         return 'Invalid data'
     }
     const sum = numbers.reduce((accumulator, currentValue) => accumulator + currentValue);
@@ -22,7 +25,9 @@ console.log(multiply(2)(-2)) // -4
 console.log(multiply(4)(3)) // 12
 
 function multiply(a) {
-    console.log(a);
+    if (typeof a !== 'number' || isNaN(a)) {
+        return 'Invalid data'
+    }
     function calculate(b) {
         return a * b;
     };
@@ -63,10 +68,16 @@ const movies = [
     },
 ];
 
-console.log(movies.sort(byProperty('releaseYear', '>'))); // виведе масив фільмів посортованих по року випуску, від старішого до новішого
-console.log(movies.sort(byProperty('runningTimeInMinutes', '<'))); // виведе масив фільмів посортованих по їх тривалості, від найдовшого до найкоротшого
-console.log(movies.sort(byProperty('movieName', '>'))); // виведе масив фільмів посортованих по назві, в алфавітному порядку
+//console.log(movies.sort(byProperty('releaseYear', '>'))); // виведе масив фільмів посортованих по року випуску, від старішого до новішого
+//console.log(movies.sort(byProperty('runningTimeInMinutes', '<'))); // виведе масив фільмів посортованих по їх тривалості, від найдовшого до найкоротшого
+//console.log(movies.sort(byProperty('movieName', '>'))); // виведе масив фільмів посортованих по назві, в алфавітному порядку
 
 function byProperty(property, direction) {
-// тут ваш код*
+  if ( a.last_nom < b.last_nom ){
+    return -1;
+  }
+  if ( a.last_nom > b.last_nom ){
+    return 1;
+  }
+  return 0;
 }
