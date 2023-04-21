@@ -7,7 +7,7 @@ console.log(addThemAll(1,2,3,4)); // 10
 console.log(addThemAll(5,5,10)); // 20
 
 function checkIsNumber(number) {
-    return typeof number === 'number';
+    return (typeof number === 'number' && !isNaN(number));
 }
 
 function addThemAll(...numbers) {
@@ -20,20 +20,28 @@ function addThemAll(...numbers) {
 
 /* 2. Задача на використання замикання. Напишіть функцію яка працює таким чином: multiply(a)(b)// a * b */
 
-console.log(multiply(null)(5))	// 25
+console.log(multiply(5)(5))	// 25
 console.log(multiply(2)(-2)) // -4
 console.log(multiply(4)(3)) // 12
 
 function multiply(a) {
     if (typeof a !== 'number' || isNaN(a)) {
-        /* зробив через викидання помилки бо якщо повертати шось в ретурні, то виходить помилка
-        Uncaught TypeError: multiply(...) is not a function тому що ми ій асайнимо шось шо не схоже на функцію
-        */
         throw new Error('First argument must be a number');
+
+        /*
+        як альтернативний варіант щоб не падало з помилкою
+        return () => (0);
+        console.warn('First argument must be a number');
+        */
     }
     function calculate(b) {
         if (typeof b !== 'number' || isNaN(b)) {
             throw new Error('Second argument must be a number');
+            /*
+            як альтернативний варіант щоб не падало з помилкою
+            return 0;
+            console.warn('First argument must be a number');
+            */
         }
         return a * b;
     };
@@ -74,16 +82,14 @@ const movies = [
     },
 ];
 
-console.log(movies.sort(byProperty('releaseYear', '>'))); // виведе масив фільмів посортованих по року випуску, від старішого до новішого
+console.log(movies.sort(byProperty('releaseYear', '<'))); // виведе масив фільмів посортованих по року випуску, від старішого до новішого
 console.log(movies.sort(byProperty('runningTimeInMinutes', '>'))); // виведе масив фільмів посортованих по їх тривалості, від найдовшого до найкоротшого
 console.log(movies.sort(byProperty('movieName', '>'))); // виведе масив фільмів посортованих по назві, в алфавітному порядку
 
 function byProperty(property, direction) {
     if (direction !== '>' && direction !== '<') {
-        /* не певен що тут варто було б прям помилку видавати, 
-        бо дані все рівно віддаються, просто не посортовані як хотілося б,
-        тому не викидаю тут помилку а даю ворнінг */
-        console.warn('Wrong direction value an array wasn\'t sorted as expected');
+        console.warn('Wrong value of direction, your array won\'t be sorted as expected');
+        return;
     }
     return (a, b) => {
         let valueA = a[property];
