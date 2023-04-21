@@ -92,6 +92,11 @@ function byProperty(property, direction) {
         return;
     }
     return (a, b) => {
+        if (!a.hasOwnProperty(property) || !b.hasOwnProperty(property)) {
+            console.warn('Property does not exist in one or more objects, your array won\'t be sorted as expected');
+            return 0;
+        }
+
         let valueA = a[property];
         let valueB = b[property];
         
