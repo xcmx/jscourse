@@ -69,27 +69,34 @@ cat.checkBreed();
 3. А тепер зробіть всі свої методи з задачі 5 прив'язаними до контексту свого об'єкту - аби вони були захищені від перезапису об'єкту і їх можна було викликати в таймері: 
 */
 
-// let securedSelfIntroduce // якийсь код*
-// let securedSelfPrognose // якийсь код*
-// let securedSelfDescribeMyMood // якийсь код*
+let securedAboutMe = cat.about.bind(cat);
+let securedCheckBreed = cat.checkBreed.bind(cat);
 
-// setTimeout(securedSelfIntroduce, 1000); *// виведе коректний результат*
-// setTimeout(securedSelfPrognose, 2000); *// виведе коректний результат*
-// setTimeout(securedSelfDescribeMyMood, 3000); *// виведе коректний результат*
+setTimeout(securedAboutMe, 1000);
+setTimeout(securedCheckBreed, 2000);
 
 /* 
-4. Напишіть функцію-декоратор яка вопвільнює виконання довільної функції на вказану кількість секунд. 
+4. Напишіть функцію-декоратор яка вповільнює виконання довільної функції на вказану кількість секунд. 
 */
 
-// function someFunction(); // тут напишіть довільну функцію яка робить якусь роботу зі своїми аргументами та виводить результат в консоль
+function helloFunction(name) {
+    if (typeof name !== 'string') {
+        console.log('Invalid data');
+        return;
+    }
+    console.log(`hello ${name}`);
+}
 
-// function slower(func, seconds) {
-// // тут ваш код для декоратора*
-// }
+function slower(func, seconds) {
+    let counter = seconds * 1000;
+    console.log(`Chill out, you will get you result in ${seconds} seconds`)
+    return function(name) {
+        setTimeout(() => {
+            func(name);
+        }, counter);
+    }
+}
 
-// let slowedSomeFunction = slower(someFunction, 5); // обгортаєте свою довільну функцію 'someFunction' в декоратор*
+let slowedHelloFunction = slower(helloFunction, 3);
 
-// slowedSomeFunction(/*якісь аргументи*/) // викликаєте декоратор*
-
-// // виведе в консоль "Chill out, you will get you result in 5 seconds"
-// //...через 5 секунд виведе результат роботи 'someFunction*'
+slowedHelloFunction('John')
