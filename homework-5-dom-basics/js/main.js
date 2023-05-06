@@ -40,6 +40,7 @@ displayLastTimeSwitch(DATE_SWITCHED, PAGE_LAST_SWITCH_KEY, pageState);
 function setDefaultPageState(param, state) {
     if (!localStorage.getItem(param)) {
         localStorage.setItem(param, state);
+        pageState = localStorage.getItem(PAGE_STATE_KEY);
     }
 }
 
@@ -48,7 +49,7 @@ function togglePageState(state) {
         localStorage.setItem(PAGE_STATE_KEY, DARK_MODE);
         pageState = localStorage.getItem(PAGE_STATE_KEY);
     }
-    else {
+    else if (state === DARK_MODE) {
         localStorage.setItem(PAGE_STATE_KEY, LIGHT_MODE);
         pageState = localStorage.getItem(PAGE_STATE_KEY);
     }
