@@ -11,7 +11,7 @@
 Під кнопкою має з'явитись текстове повідомлення 'Last turn on: `{DD-MM-YYYY HH:MM:SS}`', де `{DD-MM-YYYY HH:MM:SS}` - це формат часу для виведення
 
 Стан кнопки та повідомлення останню зміну стану має зберігатись після перезавантаження/закриття сторінки.
-Логіку роботи реалізуйте в окремому js-файлі.Для сторінки напишіть селектори для 4 елементів на вибір.
+Логіку роботи реалізуйте в окремому js-файлі. Для сторінки напишіть селектори для 4 елементів на вибір.
 
 Кожен селектор має бути унікальним (тобто всі мають бути створені за допомогою різних методів) і має бути присвоєний якійсь змінній.
 Приклад:
@@ -21,22 +21,20 @@
 
 const LIGHT_MODE = 'light';
 const DARK_MODE = 'dark';
-const STATE_PARAM = 'state';
-const LAST_SWITCH_PARAM = 'last-switch'
+const PAGE_STATE_KEY = 'state';
+const PAGE_LAST_SWITCH_KEY = 'last-switch'
 
 const APP = document.getElementById('app');
 const DATE_SWITCHED = document.getElementById('switcher-note');
 const SWITCHER_BUTTON = document.getElementById('switcher-button');
 
-let pageState = localStorage.getItem(STATE_PARAM);
-let lastTimeSwitch = localStorage.getItem(LAST_SWITCH_PARAM);
+let pageState = localStorage.getItem(PAGE_STATE_KEY);
+let lastTimeSwitch = localStorage.getItem(PAGE_LAST_SWITCH_KEY);
 
-console.log(lastTimeSwitch);
-
-setDefaultPageState(STATE_PARAM, LIGHT_MODE);
+setDefaultPageState(PAGE_STATE_KEY, LIGHT_MODE);
 setPageBackground(APP, pageState, DARK_MODE);
 setButtonName(SWITCHER_BUTTON, pageState);
-displayLastTimeSwitch(DATE_SWITCHED, LAST_SWITCH_PARAM, pageState);
+displayLastTimeSwitch(DATE_SWITCHED, PAGE_LAST_SWITCH_KEY, pageState);
 
 /* page states */
 function setDefaultPageState(param, state) {
@@ -47,10 +45,12 @@ function setDefaultPageState(param, state) {
 
 function togglePageState(state) {
     if (state === LIGHT_MODE) {
-        localStorage.setItem(STATE_PARAM, DARK_MODE);
+        localStorage.setItem(PAGE_STATE_KEY, DARK_MODE);
+        pageState = localStorage.getItem(PAGE_STATE_KEY);
     }
     else {
-        localStorage.setItem(STATE_PARAM, LIGHT_MODE);
+        localStorage.setItem(PAGE_STATE_KEY, LIGHT_MODE);
+        pageState = localStorage.getItem(PAGE_STATE_KEY);
     }
 }
 
@@ -83,7 +83,7 @@ function renameButton(component) {
 /* date toggler */
 function setLastTimeSwitch(param) {
     let lastSwitch = new Date();
-    localStorage.setItem(param, lastSwitch)
+    localStorage.setItem(param, lastSwitch);
 }
 
 function displayLastTimeSwitch(component, param, state) {
@@ -91,26 +91,37 @@ function displayLastTimeSwitch(component, param, state) {
         return component.innerText = '';
     }
     if (state === DARK_MODE) {
-        return component.innerText = `Last turn off: ${localStorage.getItem(param)}`;
+        lastTimeSwitch = localStorage.getItem(PAGE_LAST_SWITCH_KEY);
+        component.innerText = `Last turn off: ${formatDate(new Date(lastTimeSwitch))}`;
     }
     else if (state === LIGHT_MODE) {
-        return component.innerText = `Last turn on: ${localStorage.getItem(param)}`;
+        lastTimeSwitch = localStorage.getItem(PAGE_LAST_SWITCH_KEY);
+        component.innerText = `Last turn on: ${formatDate(new Date(lastTimeSwitch))}`;
     }
+}
+
+function validateDate(date) {
+    const dateToValidate = Date.parse(date);
+    return !isNaN(dateToValidate);
+};
+
+function formatDate(date) {
+    if (!validateDate(date)) {
+        return 'Wrong date format'
+    }
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear().toString();
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
 }
 
 function toggleLight() {
     togglePageState(pageState);
     changePageBackground(APP, DARK_MODE);
     renameButton(SWITCHER_BUTTON);
-    setLastTimeSwitch(LAST_SWITCH_PARAM);
-}
-
-function formatDate(date) {
-  const day = date.getDate().toString().padStart(2, "0"); // Get the day of the month (with leading zero if needed)
-  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Get the month (with leading zero if needed)
-  const year = date.getFullYear().toString(); // Get the year
-  const hours = date.getHours().toString().padStart(2, "0"); // Get the hours (with leading zero if needed)
-  const minutes = date.getMinutes().toString().padStart(2, "0"); // Get the minutes (with leading zero if needed)
-  const seconds = date.getSeconds().toString().padStart(2, "0"); // Get the seconds (with leading zero if needed)
-  return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`; // Return the formatted date string
+    setLastTimeSwitch(PAGE_LAST_SWITCH_KEY, DATE_SWITCHED);
+    displayLastTimeSwitch(DATE_SWITCHED, PAGE_LAST_SWITCH_KEY, pageState);
 }
