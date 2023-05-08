@@ -31,10 +31,14 @@ const SWITCHER_BUTTON = document.getElementById('switcher-button');
 let pageState = localStorage.getItem(PAGE_STATE_KEY);
 let lastTimeSwitch = localStorage.getItem(PAGE_LAST_SWITCH_KEY);
 
-setDefaultPageState(PAGE_STATE_KEY, LIGHT_MODE);
-setPageBackground(APP, pageState, DARK_MODE);
-setButtonName(SWITCHER_BUTTON, pageState);
-displayLastTimeSwitch(DATE_SWITCHED, PAGE_LAST_SWITCH_KEY, pageState);
+loadEventListeners();
+
+function loadEventListeners() {
+    document.addEventListener('DOMContentLoaded', setDefaultPageState(PAGE_STATE_KEY, LIGHT_MODE));
+    document.addEventListener('DOMContentLoaded', setPageBackground(APP, pageState, DARK_MODE));
+    document.addEventListener('DOMContentLoaded', setButtonName(SWITCHER_BUTTON, pageState));
+    document.addEventListener('DOMContentLoaded', displayLastTimeSwitch(DATE_SWITCHED, PAGE_LAST_SWITCH_KEY, pageState));
+}
 
 /* page states */
 function setDefaultPageState(param, state) {
@@ -89,15 +93,18 @@ function setLastTimeSwitch(param) {
 
 function displayLastTimeSwitch(component, param, state) {
     if (!localStorage.getItem(param)) {
-        return component.innerText = '';
+        component.innerText = '';
+        return;
     }
     if (state === DARK_MODE) {
         lastTimeSwitch = localStorage.getItem(PAGE_LAST_SWITCH_KEY);
         component.innerText = `Last turn off: ${formatDate(new Date(lastTimeSwitch))}`;
+        return;
     }
     else if (state === LIGHT_MODE) {
         lastTimeSwitch = localStorage.getItem(PAGE_LAST_SWITCH_KEY);
         component.innerText = `Last turn on: ${formatDate(new Date(lastTimeSwitch))}`;
+        return;
     }
 }
 
