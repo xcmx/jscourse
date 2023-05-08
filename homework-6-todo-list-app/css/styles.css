@@ -1,0 +1,87 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(120deg, #e3ffe7 0%, #d9e7ff 100%);
+}
+.task-title {
+  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.create-task-block, .filter-task-block {
+  margin-bottom: 12px;
+  padding: 12px;
+  width: 400px;
+  background: #ffffff;
+  border-radius: 12px;
+}
+.create-task-block .btn {
+  background: #31b1f6;
+  color: #FAFAFA;
+  font-size: 14px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.create-task-block .btn:hover {
+  background: #1f98d9;
+}
+.create-task-form {
+  display: flex;
+  flex-direction: row;
+}
+.create-task-form .input-field {
+  margin-right: 12px;
+}
+.create-task-form .input-field .task-input {
+  height: 26px;
+  width: 244px;
+}
+.filter-task-block .input-field .filter-input {
+  margin-bottom: 12px;
+  width: 98%;
+  height: 26px;
+}
+.filter-task-block .collection {
+  margin-bottom: 12px;
+}
+.filter-task-block .collection .collection-item {
+  display: flex;
+  margin-bottom: 4px;
+  padding: 8px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  background: #f9f9f9;
+  border-radius: 4px;
+}
+.filter-task-block .collection .collection-item:hover {
+  background: #e2e1e1;
+}
+.filter-task-block .collection .collection-item .delete-item {
+  margin-left: auto;
+  color: #ac0000;
+  cursor: pointer;
+}
+.filter-task-block .collection .collection-item .edit-item {
+  margin-left: auto;
+  color: #ac0000;
+  cursor: pointer;
+}
+.filter-task-block .clear-tasks {
+  width: 100%;
+  background: #ffcbc9;
+  color: #ac0000;
+  font-size: 14px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.filter-task-block .clear-tasks:hover {
+  background: #f5aba8;
+}
