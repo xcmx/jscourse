@@ -15,6 +15,8 @@ function loadEventListeners() {
   document.addEventListener('DOMContentLoaded', getTasks);
   // Add task event
   form.addEventListener('submit', addTask);
+  // Edit task event
+  taskList.addEventListener('click', editTask);
   // Remove task event
   taskList.addEventListener('click', removeTask);
   // Clear task event
@@ -91,6 +93,14 @@ function addTask(e) {
   e.preventDefault();
 }
 
+// Edit task
+
+function editTask(e) {
+  if(e.target.parentElement.classList.contains('edit-item')) {
+    console.log('Edit task')
+  }
+}
+
 // Store Task
 function storeTaskInLocalStorage(task) {
   let tasks;
@@ -139,9 +149,10 @@ function removeTaskFromLocalStorage(taskItem) {
 function clearTasks() {
   // taskList.innerHTML = '';
 
-  // Faster
-  while(taskList.firstChild) {
-    taskList.removeChild(taskList.firstChild);
+  if (confirm('Ви впевнені що хочете видалити ВСІ завдання?')) {
+    while (taskList.firstChild) {
+      taskList.removeChild(taskList.firstChild);
+    }
   }
 
   // Clear from LS
