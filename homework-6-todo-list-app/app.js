@@ -96,8 +96,24 @@ function addTask(e) {
 // Edit task
 
 function editTask(e) {
-  if(e.target.parentElement.classList.contains('edit-item')) {
-    console.log('Edit task')
+  if (e.target.parentElement.classList.contains('edit-item')) {
+    let currentTask = e.target.parentElement.parentElement.textContent;
+    let editedTask = window.prompt("Please type a new name", currentTask);
+
+    let tasks;
+    if(localStorage.getItem('tasks') === null){
+      tasks = [];
+    } else {
+      tasks = JSON.parse(localStorage.getItem('tasks'));
+    }
+
+    if (editedTask && (editedTask !== currentTask)) {
+      foundTaskIndex = tasks.indexOf(currentTask);
+      e.target.parentElement.parentElement.textContent = editedTask;
+      tasks[foundTaskIndex] = editedTask;
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
   }
 }
 
