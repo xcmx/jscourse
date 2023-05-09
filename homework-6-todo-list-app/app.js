@@ -39,14 +39,15 @@ function getTasks() {
     li.className = 'collection-item';
     // Create text node and append to li
     li.appendChild(document.createTextNode(task));
+    const editButton = document.createElement('span');
+    editButton.className = 'edit-item secondary-content';
+    editButton.innerHTML = '<i class="fa fa-edit"></i>';
+    li.appendChild(editButton);
     // Create new link element
-    const taskText = document.createElement('span');
-    // Add class
-    taskText.className = 'delete-item secondary-content';
-    // Add icon html
-    taskText.innerHTML = '<i class="fa fa-remove"></i>';
-    // Append the link to li
-    li.appendChild(taskText);
+    const removeButton = document.createElement('span');
+    removeButton.className = 'delete-item secondary-content';
+    removeButton.innerHTML = '<i class="fa fa-remove"></i>';
+    li.appendChild(removeButton);
 
     // Append li to ul
     taskList.appendChild(li);
@@ -66,14 +67,17 @@ function addTask(e) {
   li.className = 'collection-item';
   // Create text node and append to li
   li.appendChild(document.createTextNode(taskInput.value));
-  // Create new link element
-  const taskText = document.createElement('span');
-  // Add class
-  taskText.className = 'delete-item secondary-content';
-  // Add icon html
-  taskText.innerHTML = '<i class="fa fa-remove"></i>';
-  // Append the link to li
-  li.appendChild(taskText);
+  // Create new link element to edit item
+  const editButton = document.createElement('span');
+  editButton.className = 'edit-item secondary-content';
+  editButton.innerHTML = '<i class="fa fa-edit"></i>';
+  li.appendChild(editButton);
+  // Create new link element to remove item
+  const removeButton = document.createElement('span');
+  removeButton.className = 'delete-item secondary-content';
+  removeButton.innerHTML = '<i class="fa fa-remove"></i>';
+  li.appendChild(removeButton);
+
 
   // Append li to ul
   taskList.appendChild(li);
@@ -156,7 +160,7 @@ function filterTasks(e) {
   document.querySelectorAll('.collection-item').forEach(function(task){
     const item = task.firstChild.textContent;
     if(item.toLowerCase().includes(text.toLowerCase())){
-      task.style.display = 'block';
+      task.style.display = 'flex';
     } else {
       task.style.display = 'none';
     }
